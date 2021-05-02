@@ -16,27 +16,32 @@
 
 class EmployeeDAO{
 public:
-    std::vector<EmployeeDO> getEmployees();
+    /* 应用工厂模式: 4. 改写构造函数(略) */
+    /* 工厂模式未能解决的问题: 传递的工厂参数应对应于同一个数据库 */
 
     /* 应用工厂模式: 3. 接口工厂加入到成员变量中 */
     IDBConnectionFactory* dbConnectionFactory;
     IDBCommandFactory* dbCommandFactory;
     IDBDataReaderFactory* dbDataReaderFactory;
 
-    /* 以下三行具有关联性: 都得是 SQL 数据库 */
-    // SQLConnection* connection = new SQLConnection("...");
-    SQLConnection* connection = dbConnectionFactory->createDBConnection();
-    // SQLCommand* command = new SQLCommand("...");
-    SQLCommand* command = dbCommandFactory->createDBCommand();
-    command->setConnection("...")
-    SQLDataReader* reader = command->executeReader();
-    
-    while(reader->read()){
+    /* 应用工厂模式: 5. 对于具体类的 new 改为调用工厂方法 */
+    std::vector<EmployeeDO> getEmployees(){
+        /* 以下三者具有关联性: connection, command, reader (都得是同一种数据库) */
+        // SQLConnection* connection = new SQLConnection("...");
+        IDBConnection* connection = dbConnectionFactory->createDBConnection();
+        // SQLCommand* command = new SQLCommand("...");
+        IDBCommand* command = dbCommandFactory->createDBCommand();
+        command->commandText("...");
+        command->setConnection(connection);
+        IDBDataReader* reader = command->executeReader();
+        while(reader->read()){
             /* ... */
+        }
     }
+
 };
 
-/* 增加其他数据库支持第一步: 定义接口(基类) */
+/* 增加其他数据库支持第一步: 定义接口(作为基类, 规定必须实现的纯虚方法) */
 class IDBConnection{
 };
 class IDBCommand{
@@ -44,7 +49,7 @@ class IDBCommand{
 class IDBDataReader{
 };
 
-/* 增加其他数据库支持第二步: 继承基类 */
+/* 增加其他数据库支持第二步: 改为继承基类 */
 class SQLConnection : public IDBConnection{
 };
 class SQLCommand : public IDBCommand{
@@ -52,6 +57,7 @@ class SQLCommand : public IDBCommand{
 class SQLDataReader : public IDBDataReader{
 };
 /* 其他数据库的子类(略) */
+
 
 /* 应用工厂模式: 1. 接口的工厂 */
 class IDBConnectionFactory{

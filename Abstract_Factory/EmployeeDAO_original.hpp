@@ -16,14 +16,25 @@
 
 class EmployeeDAO{
 public:
-    std::vector<EmployeeDO> getEmployees();
 
-    /* 以下三行具有关联性: 都得是 SQL 数据库 */
-    sqlConnection = new sqlConnection("...");
-    sqlCommand = new sqlCommand("...");
-    command->setConnection("...")
-    sqlDataReader = sqlCommand->executeReader();
-    while(reader->read){
-        /* ... */
+    std::vector<EmployeeDO> getEmployees(){
+        /* 以下三者具有关联性: connection, command, reader (都得是同一种数据库) */
+        sqlConnection = new sqlConnection("...");
+        sqlCommand = new sqlCommand("...");
+        command->commandText("...");
+        command->setConnection(connection);
+        sqlDataReader = sqlCommand->executeReader();
+        while(reader->read){
+            /* ... */
+        }
     }
+
+};
+
+/* 原始实现: 仅支持 SQL 数据库 */
+class SQLConnection{
+};
+class SQLCommand{
+};
+class SQLDataReader{
 };

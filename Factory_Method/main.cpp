@@ -13,7 +13,8 @@ int main(){
     Delivery d;
     #endif
     #ifndef OLD
-    TransportFactory* tf = new SeaCreator;
+    TransportFactory* tf = new SeaFactory;
+    /* 将工厂指针作为构造器的参数传入 */
     Delivery d(tf);
     #endif
     d.delivery();

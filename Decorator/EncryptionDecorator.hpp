@@ -21,12 +21,12 @@ public:
 
 void EncryptionDecorator::encrypt(char* data){
     for(char* iter=data; (*iter)!='\0'; iter++)
-        iter+=CRYPTION_SHFT;
+        (*iter) = (*iter) + CRYPTION_SHFT;
 }
 
 void EncryptionDecorator::decrypt(char* data){
     for(char* iter=data; (*iter)!='\0'; iter++)
-        iter-=CRYPTION_SHFT;
+        (*iter) = (*iter) - CRYPTION_SHFT;
 }
 
 void EncryptionDecorator::writeData(char* data){

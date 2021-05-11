@@ -7,8 +7,10 @@ int main(int, char**) {
 
     char rawData[] = "The quick brown fox jumps over the lazy dog.\n";
 
+    /* 运行时装配 */
     DataSource* source = new FileDataSource("test.txt");
     source = new EncryptionDecorator(source);
+    /* 除了加密, 好可以有压缩, 缓冲等多种装饰器: source = new CompressionDecorator(source) */
     source->writeData(rawData);
 
     char* data = new char[100];

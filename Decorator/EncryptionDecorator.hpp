@@ -8,6 +8,7 @@
 /**
  * @brief 具体的装饰器: 完成数据的加密
  * [ConcreteDecorator]
+ * 继承自 DataSourceDecorator: 继承到了 DataSource* wrappee;
  */
 class EncryptionDecorator : public DataSourceDecorator{
 protected:

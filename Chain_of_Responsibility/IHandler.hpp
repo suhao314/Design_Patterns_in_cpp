@@ -1,8 +1,13 @@
 #pragma once
+#include "Request.hpp"
 #include <string>
 
-class Handler {
- public:
-  virtual Handler *SetNext(Handler *handler) = 0;
-  virtual std::string Handle(std::string request) = 0;
+/**
+ * @brief Handler Interface
+ * 
+ */
+class IHandler {
+public:
+    virtual IHandler* setNext(IHandler* handler) = 0;
+    virtual std::string handle(Request const& req) = 0;
 };
